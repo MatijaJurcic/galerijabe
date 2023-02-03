@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateGalleriesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -17,14 +17,9 @@ class CreateGalleriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->unsignedBigInteger('author_id')->unsigned();
-
-            $table->foreign('author_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
-
+            $table->text('url');
             $table->timestamps();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -37,4 +32,4 @@ class CreateGalleriesTable extends Migration
     {
         Schema::dropIfExists('galleries');
     }
-}
+};

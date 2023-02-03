@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateCommentsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -14,21 +14,10 @@ class CreateCommentsTable extends Migration
     public function up()
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->text('body');
-            $table->unsignedBigInteger('gallery_id')->unsigned();
-            $table->unsignedBigInteger('author_id')->unsigned();
-
-            $table->foreign('gallery_id')
-                  ->references('id')
-                  ->on('galleries')
-                  ->onDelete('cascade');
-                  
-            $table->foreign('author_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');  
-
+            $table->foreignId('gallery_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -42,4 +31,4 @@ class CreateCommentsTable extends Migration
     {
         Schema::dropIfExists('comments');
     }
-}
+};
