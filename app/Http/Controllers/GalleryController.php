@@ -18,12 +18,14 @@ class GalleryController extends Controller
     public function index()
     {
         $galleries =  Gallery::with('user')->orderBy('id', 'desc')->paginate(10);
+
         if ($galleries->isEmpty()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Ooops no galleries',
             ], 404);
         };
+
         return $galleries;
     }
 
@@ -36,6 +38,7 @@ class GalleryController extends Controller
     {
         $gallery = $request->all();
         $gallery['user_id'] = Auth::user()->id;
+
         return Gallery::create($gallery);
     }
 

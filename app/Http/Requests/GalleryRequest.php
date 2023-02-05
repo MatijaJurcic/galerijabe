@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class GalleryRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class GalleryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -27,7 +28,6 @@ class GalleryRequest extends FormRequest
             'name' => 'required|min:2|max:255',
             'description' => 'required|max:1000',
             'url' => 'required|array',
-            'url.*' => ['required'],
         ];
     }
 }
